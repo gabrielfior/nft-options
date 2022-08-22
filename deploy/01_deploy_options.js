@@ -12,10 +12,6 @@ module.exports = async ({
   const timestampBefore = blockBefore.timestamp;
 
 
-  
-  const artifact = await deployments.getArtifact("SmartNft");
-  console.log('artif', artifact);
-
   /*
   await deploy('Options', {
     from: deployer,

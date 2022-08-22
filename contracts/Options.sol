@@ -5,29 +5,37 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
 //import "hardhat/console.sol";
 
-
-
 contract Options is Ownable {
 
-    struct OptionsStruct {
+    address public constant WETH_RINKEBY = 0xc778417E063141139Fce010982780140Aa0cD5Ab;
+
+ struct OptionsStruct {
         string kind;
+        address erc20Address;
+        uint premium;
+        uint maturity;
+        address nftAddress; 
     }
 
-    // also serves as options key
-    uint optionsCounter; 
+// also serves as options key
+    uint public optionsCounter = 0; 
 
     // Declare a set state variable
     mapping(uint => OptionsStruct) public optionsMap;
 
-    function dummy() public{
+    function dummy(address nft_address) public {
+        // ToDo - require nft owner
         optionsCounter += 1;
-        oi = OptionsStruct("call");
+        OptionsStruct memory oi = OptionsStruct(
+            {kind: "call", erc20Address: address(WETH_RINKEBY), premium: 100,
+            maturity: 100, nftAddress: nft_address});
         optionsMap[optionsCounter] = oi;
     }
 
+
     // ToDo
     // retrieve listings from smart contracts to display lists
-    function createOfferCallOption(){
+    function createOfferCallOption() public {
         // ToDo - Create call terms and store them inside contract
 
         // buyer == borrower of loan
@@ -40,7 +48,8 @@ contract Options is Ownable {
         - Or the buyer keeps L and is fine that the NFT stays with the seller (who will receive the NFT by promissory note)
     }
     */
-    function createOfferPutOption(){
+    }
+    function createOfferPutOption() public {
         /* 
         - At origination p0 **the seller receives** the premium **p and** the loan amount **L** and puts the NFT into the promissory note, conversely t**he buyer provides L** and the premium p to receive the right upon that note
 - When the option expires (after the set duration) either
